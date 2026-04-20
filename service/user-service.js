@@ -17,7 +17,7 @@ const getuserById = async (data) => {
   const [user] = await db.execute('SELECT * FROM users WHERE id = ?', [data]);
 
   if (!user.length) {
-    throwError(`User not found with this id - ${data}`, 404);
+    throwError(404, `User not found with this id - ${data}`);
   }
   return user[0];
 }

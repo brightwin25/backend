@@ -21,13 +21,11 @@ const createCategory = async (data) => {
 };
 
 const getCategorieById = async (data) => {
-    const { id = 0 } = data;
-    const [category] = await db.execute('SELECT * FROM categories WHERE id = ?', [id]);
+    const [category] = await db.execute('SELECT * FROM categories WHERE id = ?', [data]);
 
     if (!category) {
-        throwError('Category not found with this id', 403);
+        throwError(404, `Category not found with this id ${data}`);
     }
-
     return category[0];
 }
 
