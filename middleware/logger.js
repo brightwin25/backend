@@ -1,14 +1,20 @@
 const winston = require('winston');
+const asyncLocalStorage = require('../utils/async-context');
 
-// const logFormat = winston.format.combine(
-//     winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-//     winston.format.json(),
-// );
+const addRequestId = winston.format((info) => {
+    const store = asyncLocalStorage.getStore();
+
+    if (store?.requestId) {
+        info.requestId = store.requestId;
+    }
+    return info;
+})
 
 const logger = winston.createLogger({
     level: 'info',
     format: winston.format.combine(
-        timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+        addRequestId(),
+        winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
         winston.format.json()
     ),
     transports: [

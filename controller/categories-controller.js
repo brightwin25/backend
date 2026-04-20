@@ -5,7 +5,7 @@ const logger = require('../middleware/logger');
 const getCategories = async (req, res, next) => {
     try {
         const categories = await categoryService.getCategories();
-        logger.info('Categories fetched successfully', categories);
+        logger.info('Categories fetched successfully', { data: categories });
         res.json(categories);
     } catch (err) {
         next(err);
