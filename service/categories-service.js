@@ -20,17 +20,18 @@ const createCategory = async (data) => {
     return { id: category.insertId, name, type, userId };
 };
 
-const getCategorieById = async (data) => {
-    const [category] = await db.execute('SELECT * FROM categories WHERE id = ?', [data]);
-
-    if (!category) {
-        throwError(404, `Category not found with this id ${data}`);
+const getCategoryById = async (data) => {
+    try {
+        const [category] = await db.execute('SELECT * FROM categories WHERE id = ?', [data]);
+        return category[0];
     }
-    return category[0];
+    catch (err) {
+        throw err;
+    }
 }
 
 module.exports = {
     getCategories,
     createCategory,
-    getCategorieById
+    getCategoryById
 };

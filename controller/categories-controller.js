@@ -4,7 +4,7 @@ const logger = require('../middleware/logger');
 const sendSuccessResponse = require('../utils/helper')
 
 const getCategories = async (req, res, next) => {
-    logger.info('Entering into the categories controller');
+    logger.info('Entering into the get categories controller');
     try {
         const categories = await categoryService.getCategories();
         logger.info('Categories fetched successfully', { data: categories });
@@ -14,12 +14,7 @@ const getCategories = async (req, res, next) => {
                 data: {},
             })
         }
-        // res.status(200).json({
-        //     responseId: 1,
-        //     data: categories,
-        //     message: "Categories fetched successfully !",
-        // })
-        sendSuccessResponse(res, {
+        sendSuccessResponse.sendSuccessResponse(res, {
             status: 200,
             responseId: 1,
             data: categories,
@@ -40,16 +35,31 @@ const createCategory = async (req, res, next) => {
     }
 }
 
-const getCategorieById = async (req, res, next) => {
+const getCategoryById = async (req, res, next) => {
+    logger.info('Entering into the get category by id controller');
     try {
-        const category = await categoryService.getCategorieById(req.body);
-        logger.info('Category fetched successfully');
-        res.json(category);
+        const categoryId = req.params?.id || 0;
+        const category = await categoryService.getCategoryById(categoryId);
+        logger.info('Category fetched successfully', category);
+        if (!category) {
+            return sendSuccessResponse.sendSuccessResponse(res, {
+                status: 200,
+                responseId: 2,
+                data: null,
+                message: `No category found with this id ${categoryId}`,
+            })
+        }
+        return sendSuccessResponse.sendSuccessResponse(res, {
+            status: 200,
+            responseId: 1,
+            data: category,
+            message: 'Category fetched successfully',
+        })
     } catch (err) {
-        next(err);
+        throw err;
     }
 }
 
 module.exports = {
-    getCategories, createCategory, getCategorieById
+    getCategories, createCategory, getCategoryById
 }

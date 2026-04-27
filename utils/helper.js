@@ -1,7 +1,9 @@
-export const sendSuccessResponse = (res, { code = 200, responseId, data = null, message }) => {
+const sendSuccessResponse = (res, { code = 200, responseId, data = null, message }) => {
     res.status(code).json({
         responseId,
-        date,
+        data,
         message,
     })
 }
+
+module.exports = { sendSuccessResponse } 
