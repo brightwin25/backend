@@ -6,8 +6,8 @@ const errorHandler = (err, req, res, next) => {
   const store = asyncLocalStorage.getStore();
   // if (store) {
   const requestId = store?.requestId;
-  const userName = store?.userName || 'Anonymous';;
-  const startTime = store?.start || Date.now();;
+  const userName = store?.userName || 'Anonymous';
+  const startTime = store?.start || Date.now();
   // }
 
   const timeTaken = Date.now() - startTime;
@@ -20,15 +20,15 @@ const errorHandler = (err, req, res, next) => {
     body: req?.body,
     userName,
     requestId,
-    TimeTaken: timeTaken,
+    TimeTaken: timeTaken + 'ms',
   })
 
   const statusCode = err.statusCode || 500;
 
   res.status(statusCode).json({
-    requestId,
+    responseId: 2,
     message: err.message || "Internal server error",
-    status: statusCode,
+    // status: statusCode,
   });
 };
 

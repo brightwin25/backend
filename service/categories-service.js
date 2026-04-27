@@ -1,14 +1,14 @@
 const db = require('../config/db');
-const throwError = require('../middleware/error');
+const throwError = require('../utils/error');
 
 const getCategories = async () => {
-    const [categories] = await db.execute('SELECT * FROM categories;');
+    try {
+        const [categories] = await db.execute('SELECT * FROM categories');
 
-    if (!categories.length) {
-        throwError('Categories not found !', 404);
+        return categories;
+    } catch (err) {
+        throw err;
     }
-
-    return categories;
 };
 
 const createCategory = async (data) => {
