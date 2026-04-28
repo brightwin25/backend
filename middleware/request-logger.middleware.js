@@ -1,4 +1,4 @@
-const logger = require('./logger');
+const logger = require('./logger.middleware');
 const asyncLocalStorage = require('../utils/async-context');
 
 const requestLogger = async (req, res, next) => {

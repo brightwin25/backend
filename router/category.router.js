@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const categoryController = require('../controller/categories-controller');
-const validateCategory = require('../middleware/joi');
-const requestLogger = require('../middleware/request-logger');
+const categoryController = require('../controller/categories.controller');
+const validateCategory = require('../middleware/joi.middleware');
+const requestLogger = require('../middleware/request-logger.middleware');
 
 router.use(requestLogger);
 
@@ -58,6 +58,30 @@ router.get("/", categoryController.getCategories);
  *              description :success
  */
 router.get("/:id", categoryController.getCategoryById);
-router.post('/', validateCategory, categoryController.createCategory);
+
+/**
+ * @swagger
+ * /categories:
+ *   post:
+ *     summary: Creates a category
+ *     tags: [Categories]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               type:
+ *                 type: integer
+ *               userId:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: success
+ */
+router.post('/', categoryController.createCategory);
 
 module.exports = router;

@@ -1,5 +1,5 @@
 const db = require('../config/db');
-const throwError = require('../utils/error');
+const throwError = require('../utils/response-handler');
 
 const createUser = async (user) => {
   const { name, email, password } = user;

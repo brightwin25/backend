@@ -5,9 +5,9 @@ const swaggerSpec = require('./config/swagger');
 // const swaggerSpec = require("./swagger");
 const app = express();
 
-const userRoutes = require('./router/user-router');
-const categoryRouter = require('./router/category-router');
-const errorHandler = require('./middleware/error');
+const userRoutes = require('./router/user.router');
+const categoryRouter = require('./router/category.router');
+const errorHandler = require('./middleware/error.middleware');
 
 app.use(express.json());
 

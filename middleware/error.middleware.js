@@ -1,5 +1,6 @@
 const asyncLocalStorage = require('../utils/async-context');
-const logger = require('./logger');
+const logger = require('./logger.middleware');
+const response = require('../utils/response-handler');
 
 const errorHandler = (err, req, res, next) => {
 
@@ -25,10 +26,10 @@ const errorHandler = (err, req, res, next) => {
 
   const statusCode = err.statusCode || 500;
 
-  res.status(statusCode).json({
+  response.sendFailureResponse(res, {
+    code: statusCode,
     responseId: 2,
     message: err.message || "Internal server error",
-    // status: statusCode,
   });
 };
 

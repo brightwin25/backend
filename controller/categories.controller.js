@@ -1,21 +1,21 @@
-const categoryService = require('../service/categories-service');
-// const throwError = require('../middleware/error');
-const logger = require('../middleware/logger');
-const sendSuccessResponse = require('../utils/helper')
+const categoryService = require('../service/category.service');
+const logger = require('../middleware/logger.middleware');
+const response = require('../utils/response-handler')
 
 const getCategories = async (req, res, next) => {
     logger.info('Entering into the get categories controller');
     try {
         const categories = await categoryService.getCategories();
-        logger.info('Categories fetched successfully', { data: categories });
         if (!categories.length) {
-            res.status(200).json({
+            return response.sendSuccessResponse(res, {
+                code: 200,
                 responseId: 2,
-                data: {},
+                data: categories,
+                message: 'Categories not found',
             })
         }
-        sendSuccessResponse.sendSuccessResponse(res, {
-            status: 200,
+        return response.sendSuccessResponse(res, {
+            code: 200,
             responseId: 1,
             data: categories,
             message: 'Categories fetched successfully',
@@ -26,10 +26,15 @@ const getCategories = async (req, res, next) => {
 }
 
 const createCategory = async (req, res, next) => {
+    logger.info('Entering into create category controller')
     try {
         const category = await categoryService.createCategory(req.body);
-        logger.info('Category created successfully', category);
-        res.json(category);
+        return response.sendSuccessResponse(res, {
+            code: 200,
+            responseId: 1,
+            data: category,
+            message: 'Category created successfully',
+        })
     } catch (err) {
         next(err);
     }
@@ -40,17 +45,16 @@ const getCategoryById = async (req, res, next) => {
     try {
         const categoryId = req.params?.id || 0;
         const category = await categoryService.getCategoryById(categoryId);
-        logger.info('Category fetched successfully', category);
         if (!category) {
-            return sendSuccessResponse.sendSuccessResponse(res, {
-                status: 200,
+            return response.sendSuccessResponse(res, {
+                code: 200,
                 responseId: 2,
                 data: null,
                 message: `No category found with this id ${categoryId}`,
             })
         }
-        return sendSuccessResponse.sendSuccessResponse(res, {
-            status: 200,
+        return response.sendSuccessResponse(res, {
+            code: 200,
             responseId: 1,
             data: category,
             message: 'Category fetched successfully',
