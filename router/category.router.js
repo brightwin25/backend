@@ -82,6 +82,6 @@ router.get("/:id", categoryController.getCategoryById);
  *       200:
  *         description: success
  */
-router.post('/', categoryController.createCategory);
+router.post('/', validateCategory, categoryController.createCategory);
 
 module.exports = router;

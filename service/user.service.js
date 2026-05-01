@@ -1,4 +1,4 @@
-const db = require('../config/db');
+const db = require('../config/db.config');
 const throwError = require('../utils/response-handler');
 
 const createUser = async (user) => {

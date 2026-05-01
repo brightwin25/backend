@@ -7,7 +7,7 @@ const sendSuccessResponse = (res, { code = 200, responseId, data = null, message
 }
 
 const sendFailureResponse = (res, { code = 500, responseId, data = null, message }) => {
-    res.status(code).json({
+    return res.status(code).json({
         responseId,
         data,
         message,
