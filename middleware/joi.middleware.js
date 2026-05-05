@@ -25,4 +25,27 @@ function validateCategory(req, res, next) {
     next();
 }
 
+const validateGetCategories = (req, res, next) => {
+    const joiSchema = Joi.object({
+        limit: Joi.number().min(0).max(50).default(10),
+        orderBy: Joi.any().required(),
+        orderType: Joi.string().valid('asc', 'desc').default('asc'),
+    });
+
+    const { error, value } = joiSchema.validate(req.query, {
+        abortEarly: false,
+        stripUnknown: true,
+    })
+
+    if (error) {
+        response.sendFailureResponse(res, {
+            code: 403,
+            message: error.details.map(error => error.message),
+            responseId: 2,
+        })
+    }
+
+    next();
+}
+
 module.exports = validateCategory;

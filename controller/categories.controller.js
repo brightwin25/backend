@@ -3,22 +3,14 @@ const logger = require('../middleware/logger.middleware');
 const response = require('../utils/response-handler')
 
 const getCategories = async (req, res, next) => {
-    logger.info('Entering into the get categories controller');
     try {
         const categories = await categoryService.getCategories();
-        if (!categories.length) {
-            return response.sendSuccessResponse(res, {
-                code: 200,
-                responseId: 2,
-                data: categories,
-                message: 'Categories not found',
-            })
-        }
+
         return response.sendSuccessResponse(res, {
             code: 200,
-            responseId: 1,
+            responseId: categories.length ? 1 : 2,
             data: categories,
-            message: 'Categories fetched successfully',
+            message: categories.length ? 'Categories fetched successfully' : 'Categories not found',
         })
     } catch (err) {
         next(err);
@@ -26,14 +18,14 @@ const getCategories = async (req, res, next) => {
 }
 
 const createCategory = async (req, res, next) => {
-    logger.info('Entering into create category controller')
+    logger.info('Entering into create category controller');
     try {
         const category = await categoryService.createCategory(req.body);
         return response.sendSuccessResponse(res, {
             code: 200,
-            responseId: 1,
+            responseId: category.rowsAffected === 1 ? 1 : 2,
             data: category,
-            message: 'Category created successfully',
+            message: category.rowsAffected === 1 ? 'Category added successfully' : 'Unable to add category',
         })
     } catch (err) {
         next(err);

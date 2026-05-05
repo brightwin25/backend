@@ -1,29 +1,29 @@
 const db = require('../config/db.config');
 const { throwError } = require('../utils/response-handler');
+const categoryQuery = require('../constants/category.constants');
+const service = require('./index.service');
+const logger = require('../middleware/logger.middleware');
 
 const getCategories = async () => {
     try {
-        const [categories] = await db.execute('SELECT * FROM categories');
-        return categories;
-    } catch (err) {
-        throw err;
+        return categories = await service.getAll(categoryQuery.getAllCategories);
+    } catch (error) {
+        logger.error(error.message);
+        throw error;
     }
-};
+}
 
 const createCategory = async (data) => {
     try {
         const { name = '', type = 0, userId = null } = data;
-        const [category] = await db.execute('INSERT INTO categories (name,type,user_id) VALUES (?,?,?)', [
-            name, type, userId
-        ]);
-        if (!category.insertId) {
-            throwError(500, "Category not created");
-        }
-        return { id: category.insertId, name, type, userId };
-    } catch (err) {
-        throw err;
+        const categoryToBeCreated = [name, type, userId];
+        const category = await service.createItem(categoryQuery.createCategoryQuery, categoryToBeCreated);
+        return { id: category.id, name, type, userId, rowsAffected: category.rowsAffected };
+    } catch (error) {
+        logger.error(error.message);
+        throw error;
     }
-};
+}
 
 const getCategoryById = async (data) => {
     try {
