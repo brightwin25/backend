@@ -2,8 +2,11 @@ const express = require('express');
 const router = express.Router();
 
 const categoryController = require('../controller/categories.controller');
-const validateCategory = require('../middleware/joi.middleware');
+// const validateCategory = require('../middleware/joi.middleware');
 const requestLogger = require('../middleware/request-logger.middleware');
+const { categorySchema, getCategoriesSchema } = require('../middleware/joi/category.joi.middleware');
+const { validateSchema } = require('../middleware/joi');
+
 
 router.use(requestLogger);
 
@@ -35,7 +38,7 @@ router.use(requestLogger);
  *       500:
  *         description: Internal server error
  */
-router.get("/", categoryController.getCategories);
+router.get("/", validateSchema(getCategoriesSchema), categoryController.getCategories);
 
 /**
  * @swagger
@@ -82,6 +85,6 @@ router.get("/:id", categoryController.getCategoryById);
  *       200:
  *         description: success
  */
-router.post('/', validateCategory, categoryController.createCategory);
+router.post('/', validateSchema(categorySchema), categoryController.createCategory);
 
 module.exports = router;
