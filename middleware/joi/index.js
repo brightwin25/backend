@@ -6,7 +6,6 @@ const validateSchema = (schema, property = 'body') => {
         const { value, error } = schema.validate(source, {
             abortEarly: false,
         });
-        console.log(1);
 
         if (error) {
             sendFailureResponse(res, {

@@ -87,4 +87,5 @@ router.get("/:id", categoryController.getCategoryById);
  */
 router.post('/', validateSchema(categorySchema), categoryController.createCategory);
 
+
 module.exports = router;

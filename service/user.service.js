@@ -13,11 +13,14 @@ const getUsers = async () => {
   return users;
 };
 
-const getuserById = async (data) => {
+const getUserById = async (data) => {
   const [user] = await db.execute('SELECT * FROM users WHERE id = ?', [data]);
-
-  if (!user.length) {
-    throwError(404, `User not found with this id - ${data}`);
+  if (!user) {
+    return throwError.sendFailureResponse(res, {
+      code: 404,
+      message: 'User not found',
+      responseId: 2,
+    })
   }
   return user[0];
 }
@@ -25,5 +28,5 @@ const getuserById = async (data) => {
 module.exports = {
   createUser,
   getUsers,
-  getuserById
+  getUserById
 };
