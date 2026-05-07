@@ -3,7 +3,7 @@ const router = express.Router();
 
 const categoryController = require('../controller/categories.controller');
 // const validateCategory = require('../middleware/joi.middleware');
-const requestLogger = require('../middleware/request-logger.middleware');
+const requestLogger = require('../middleware/request.logger.middleware');
 const { categorySchema, getCategoriesSchema } = require('../middleware/joi/category.joi.middleware');
 const { validateSchema } = require('../middleware/joi');
 
@@ -15,28 +15,12 @@ router.use(requestLogger);
  * /categories:
  *   get:
  *     summary: Get all categories
- *     description: Fetch all categories from database
  *     tags: [Categories]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Categories fetched successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 requestId:
- *                   type: string
- *                 message:
- *                   type: string
- *                 status:
- *                   type: number
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *       500:
- *         description: Internal server error
+ *         description: Success
  */
 router.get("/", validateSchema(getCategoriesSchema), categoryController.getCategories);
 

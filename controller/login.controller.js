@@ -1,7 +1,7 @@
 const logger = require("../middleware/logger.middleware");
 const { getUserById } = require("../service/user.service");
-const { sendFailureResponse } = require("../utils/response-handler");
-const jwt = require('jsonwebtoken')
+const { sendFailureResponse, sendSuccessResponse } = require("../utils/response-handler");
+const jwt = require('jsonwebtoken');
 
 const login = async (req, res, next) => {
     try {
@@ -17,13 +17,21 @@ const login = async (req, res, next) => {
         }
         let data = {
             time: Date(),
-            userId
+            userId,
+            userName: user.name,
         }
+
         let jwtSecretKey = process.env.JWT_SECRET_KEY;
         const token = jwt.sign(data, jwtSecretKey);
-        console.log(token);
 
-        res.json(token);
+        sendSuccessResponse(res, {
+            responseId: 1,
+            code: 200,
+            data: token,
+            message: 'Login success'
+        })
+
+        // res.json(token);
 
     } catch (error) {
         logger.error(error.message);
