@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 const categoryController = require('../controller/categories.controller');
-// const validateCategory = require('../middleware/joi.middleware');
 const requestLogger = require('../middleware/request.logger.middleware');
 const { categorySchema, getCategoriesSchema } = require('../middleware/joi/category.joi.middleware');
 const { validateSchema } = require('../middleware/joi');

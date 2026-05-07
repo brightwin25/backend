@@ -5,11 +5,9 @@ const response = require('../utils/response-handler');
 const errorHandler = (err, req, res, next) => {
 
   const store = asyncLocalStorage.getStore();
-  // if (store) {
   const requestId = store?.requestId;
   const userName = store?.userName || 'Anonymous';
   const startTime = store?.start || Date.now();
-  // }
 
   const timeTaken = Date.now() - startTime;
 

@@ -32,8 +32,6 @@ const login = async (req, res, next) => {
             message: 'Login success'
         })
 
-        // res.json(token);
-
     } catch (error) {
         logger.error(error.message);
         throw error;
