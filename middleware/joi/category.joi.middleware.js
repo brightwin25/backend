@@ -6,7 +6,7 @@ const categorySchema = Joi.object({
     type: Joi.boolean()
         .truthy(1, '1')
         .falsy(0, '0').required(),
-    userId: Joi.number().required(),
+    // userId: Joi.number().required(),
 });
 // const { error, value } = joiSchema.validate(req.body, {
 //     abortEarly: false,

@@ -3,6 +3,7 @@ const { throwError } = require('../utils/response-handler');
 const categoryQuery = require('../constants/category.constants');
 const service = require('./index.service');
 const logger = require('../middleware/logger.middleware');
+const { request } = require('express');
 
 const getCategories = async () => {
     try {
@@ -13,9 +14,9 @@ const getCategories = async () => {
     }
 }
 
-const createCategory = async (data) => {
+const createCategory = async (data, userId) => {
     try {
-        const { name = '', type = 0, userId = null } = data;
+        const { name = '', type = 0 } = data;
         const categoryToBeCreated = [name, type, userId];
         const category = await service.createItem(categoryQuery.createCategoryQuery, categoryToBeCreated);
         return { id: category.id, name, type, userId, rowsAffected: category.rowsAffected };

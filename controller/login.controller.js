@@ -19,6 +19,7 @@ const login = async (req, res, next) => {
             time: Date(),
             userId,
             userName: user.name,
+            email: user.email,
         }
 
         let jwtSecretKey = process.env.JWT_SECRET_KEY;

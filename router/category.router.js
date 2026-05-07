@@ -30,6 +30,8 @@ router.get("/", validateSchema(getCategoriesSchema), categoryController.getCateg
  *  get:
  *      summary: GET category by ID,
  *      tags: [Categories]
+ *      security:
+ *       - bearerAuth: []
  *      parameters:
  *       - in: path
  *         name: id
@@ -52,6 +54,8 @@ router.get("/:id", categoryController.getCategoryById);
  *   post:
  *     summary: Creates a category
  *     tags: [Categories]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -62,8 +66,6 @@ router.get("/:id", categoryController.getCategoryById);
  *               name:
  *                 type: string
  *               type:
- *                 type: integer
- *               userId:
  *                 type: integer
  *     responses:
  *       200:

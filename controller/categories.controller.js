@@ -20,7 +20,8 @@ const getCategories = async (req, res, next) => {
 const createCategory = async (req, res, next) => {
     logger.info('Entering into create category controller');
     try {
-        const category = await categoryService.createCategory(req.body);
+        const userId = req.userId;
+        const category = await categoryService.createCategory(req.body, userId);
         return response.sendSuccessResponse(res, {
             code: 200,
             responseId: category.rowsAffected === 1 ? 1 : 2,
