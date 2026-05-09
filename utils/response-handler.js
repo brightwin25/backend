@@ -1,13 +1,6 @@
 const sendSuccessResponse = (res, { code = 200, responseId, data = null, message }) => {
     return res.status(code).json({
-        responseId,
-        data,
-        message,
-    })
-}
-
-const sendFailureResponse = (res, { code = 500, responseId, data = null, message }) => {
-    return res.status(code).json({
+        code,
         responseId,
         data,
         message,
@@ -21,4 +14,4 @@ const throwError = (statusCode = 500, message) => {
 };
 
 
-module.exports = { sendSuccessResponse, sendFailureResponse, throwError } 
+module.exports = { sendSuccessResponse, throwError } 

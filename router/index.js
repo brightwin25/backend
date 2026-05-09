@@ -1,5 +1,7 @@
 const express = require('express');
 const { login } = require('../controller/login.controller');
+const { validateSchema } = require('../middleware/joi');
+const { loginSchema } = require('../middleware/joi/login.joi.middleware');
 const router = express.Router();
 
 /**
@@ -23,6 +25,6 @@ const router = express.Router();
  *       200:
  *         description: Success
  */
-router.post('/login', login);
+router.post('/login', validateSchema(loginSchema), login);
 
 module.exports = router;

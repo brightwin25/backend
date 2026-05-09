@@ -9,7 +9,7 @@ const getCategories = async () => {
     try {
         return categories = await service.getAll(categoryQuery.getAllCategories);
     } catch (error) {
-        logger.error(error.message);
+        // logger.error(error.message);
         throw error;
     }
 }

@@ -1,6 +1,6 @@
 const { request } = require("express");
-const { sendFailureResponse } = require("../utils/response-handler");
 const jwt = require('jsonwebtoken');
+const { throwError } = require("../utils/response-handler");
 
 
 const auth = (req, res, next) => {
@@ -9,21 +9,13 @@ const auth = (req, res, next) => {
         const token = authHeader?.split(' ')[1];
 
         if (!token) {
-            return sendFailureResponse(res, {
-                code: 403,
-                message: 'Missing token',
-                responseId: 2,
-            })
+            throwError(403, 'Missing Token')
         }
         let jwtSecretKey = process.env.JWT_SECRET_KEY;
         const verified = jwt.verify(token, jwtSecretKey);
 
         if (!verified) {
-            return sendFailureResponse(res, {
-                code: 403,
-                message: 'Invalid token',
-                responseId: 2,
-            })
+            throwError(403, 'Invalid Token')
         }
         req.userName = verified.userName;
         req.userId = verified.userId;
@@ -33,11 +25,7 @@ const auth = (req, res, next) => {
         const loginDuration = currentDate - loginTime;
 
         if (loginDuration / 60000 > 90) {
-            return sendFailureResponse(res, {
-                code: 403,
-                message: 'Token experied',
-                responseId: 2,
-            })
+            throwError(403, 'Token experied')
         }
 
         next();

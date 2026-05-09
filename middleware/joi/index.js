@@ -1,4 +1,4 @@
-const { sendFailureResponse } = require("../../utils/response-handler");
+const { throwError } = require("../../utils/response-handler");
 
 const validateSchema = (schema, property = 'body') => {
     return (req, res, next) => {
@@ -8,11 +8,7 @@ const validateSchema = (schema, property = 'body') => {
         });
 
         if (error) {
-            sendFailureResponse(res, {
-                code: 403,
-                message: error.details.map(err => err.message),
-                responseId: 2,
-            });
+            throwError(403, error.details.map(err => err.message));
         }
         req[property] = value;
         next();

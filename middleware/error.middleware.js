@@ -24,11 +24,12 @@ const errorHandler = (err, req, res, next) => {
 
   const statusCode = err.statusCode || 500;
 
-  response.sendFailureResponse(res, {
-    code: statusCode,
-    responseId: 2,
-    message: err.message || "Internal server error",
-  });
+  return res.status(statusCode).json({
+    statusCode,
+    responseId,
+    data,
+    message,
+  })
 };
 
 module.exports = errorHandler;

@@ -2,13 +2,8 @@ const db = require('../config/db.config');
 const logger = require('../middleware/logger.middleware');
 
 const getAll = async (getAllQuery) => {
-    try {
-        [data] = await db.execute(getAllQuery);
-        return data || [];
-    } catch (error) {
-        logger.info(error.message);
-        throw error;
-    }
+    [data] = await db.execute(getAllQuery);
+    return data || [];
 }
 
 const createItem = async (createItemQuery, itemToBeCreated) => {

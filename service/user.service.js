@@ -16,11 +16,7 @@ const getUsers = async () => {
 const getUserById = async (data) => {
   const [user] = await db.execute('SELECT * FROM users WHERE id = ?', [data]);
   if (!user) {
-    return throwError.sendFailureResponse(res, {
-      code: 404,
-      message: 'User not found',
-      responseId: 2,
-    })
+    throwError(403, 'User not found');
   }
   return user[0];
 }

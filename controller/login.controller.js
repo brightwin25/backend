@@ -1,6 +1,6 @@
 const logger = require("../middleware/logger.middleware");
 const { getUserById } = require("../service/user.service");
-const { sendFailureResponse, sendSuccessResponse } = require("../utils/response-handler");
+const { sendSuccessResponse } = require("../utils/response-handler");
 const jwt = require('jsonwebtoken');
 
 const login = async (req, res, next) => {
@@ -9,12 +9,9 @@ const login = async (req, res, next) => {
         const user = await getUserById(userId);
 
         if ((user.password !== password) || !user) {
-            return sendFailureResponse(res, {
-                code: 401,
-                message: 'Incorrect password',
-                responseId: 2,
-            });
+           throwError(401, 'User not found or incorrect password')
         }
+
         let data = {
             time: Date(),
             userId,
