@@ -12,7 +12,7 @@ const errorHandler = (err, req, res, next) => {
   const timeTaken = Date.now() - startTime;
 
   logger.error('Exiting API with error', {
-    error: err.message,
+    message: err.message,
     status: err.statusCode || 500,
     method: req.method,
     url: req.originalUrl,
@@ -23,12 +23,10 @@ const errorHandler = (err, req, res, next) => {
   })
 
   const statusCode = err.statusCode || 500;
-
   return res.status(statusCode).json({
     statusCode,
-    responseId,
-    data,
-    message,
+    responseId: 2,
+    message: err.message,
   })
 };
 

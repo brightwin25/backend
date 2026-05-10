@@ -17,8 +17,8 @@ const router = express.Router();
  *           schema:
  *             type: object
  *             properties:
- *               username:
- *                 type: string
+ *               userId:
+ *                 type: integer
  *               password:
  *                 type: string
  *     responses:

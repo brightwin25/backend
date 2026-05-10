@@ -6,12 +6,7 @@ const logger = require('../middleware/logger.middleware');
 const { request } = require('express');
 
 const getCategories = async () => {
-    try {
-        return categories = await service.getAll(categoryQuery.getAllCategories);
-    } catch (error) {
-        // logger.error(error.message);
-        throw error;
-    }
+    return await service.getAll(categoryQuery.getAllCategories);
 }
 
 const createCategory = async (data, userId) => {

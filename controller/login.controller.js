@@ -1,6 +1,6 @@
 const logger = require("../middleware/logger.middleware");
 const { getUserById } = require("../service/user.service");
-const { sendSuccessResponse } = require("../utils/response-handler");
+const { sendSuccessResponse, throwError } = require("../utils/response-handler");
 const jwt = require('jsonwebtoken');
 
 const login = async (req, res, next) => {
@@ -9,10 +9,10 @@ const login = async (req, res, next) => {
         const user = await getUserById(userId);
 
         if ((user.password !== password) || !user) {
-           throwError(401, 'User not found or incorrect password')
+            throwError(401, 'User not found or incorrect password')
         }
 
-        let data = {
+        let userInfo = {
             time: Date(),
             userId,
             userName: user.name,
@@ -20,17 +20,17 @@ const login = async (req, res, next) => {
         }
 
         let jwtSecretKey = process.env.JWT_SECRET_KEY;
-        const token = jwt.sign(data, jwtSecretKey);
+        const token = jwt.sign(userInfo, jwtSecretKey);
 
         sendSuccessResponse(res, {
             responseId: 1,
             code: 200,
-            data: token,
+            data: { token, userInfo },
             message: 'Login success'
         })
 
     } catch (error) {
-        logger.error(error.message);
+        // logger.error(error.message);
         throw error;
     }
 }

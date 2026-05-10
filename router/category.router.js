@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const categoryController = require('../controller/categories.controller');
+const { getCategories, getCategoryById, createCategory } = require('../controller/categories.controller');
 const requestLogger = require('../middleware/request.logger.middleware');
 const { categorySchema, getCategoriesSchema } = require('../middleware/joi/category.joi.middleware');
 const { validateSchema } = require('../middleware/joi');
+const asyncHandler = require('../middleware/async.handler');
 
 
 router.use(requestLogger);
@@ -21,7 +22,7 @@ router.use(requestLogger);
  *       200:
  *         description: Success
  */
-router.get("/", validateSchema(getCategoriesSchema), categoryController.getCategories);
+router.get("/", validateSchema(getCategoriesSchema), asyncHandler(getCategories));
 
 /**
  * @swagger
@@ -45,7 +46,7 @@ router.get("/", validateSchema(getCategoriesSchema), categoryController.getCateg
  *          200:
  *              description :success
  */
-router.get("/:id", categoryController.getCategoryById);
+router.get("/:id", getCategoryById);
 
 /**
  * @swagger
@@ -70,7 +71,7 @@ router.get("/:id", categoryController.getCategoryById);
  *       200:
  *         description: success
  */
-router.post('/', validateSchema(categorySchema), categoryController.createCategory);
+router.post('/', validateSchema(categorySchema), createCategory);
 
 
 module.exports = router;
