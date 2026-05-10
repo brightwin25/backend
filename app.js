@@ -10,10 +10,12 @@ const userRoutes = require('./router/user.router');
 const categoryRouter = require('./router/category.router');
 const errorHandler = require('./middleware/error.middleware');
 const { auth } = require('./middleware/auth.middleware');
+const requestLogger = require('./middleware/request.logger.middleware');
 
 app.use(express.json());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(requestLogger);
 
 app.use('/', loginRoutes);
 app.use('/users', auth, userRoutes);

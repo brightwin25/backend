@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 
 const { getCategories, getCategoryById, createCategory } = require('../controller/categories.controller');
-const requestLogger = require('../middleware/request.logger.middleware');
+// const requestLogger = require('../middleware/request.logger.middleware');
 const { categorySchema, getCategoriesSchema } = require('../middleware/joi/category.joi.middleware');
 const { validateSchema } = require('../middleware/joi');
 const asyncHandler = require('../middleware/async.handler');
 
 
-router.use(requestLogger);
+// router.use(requestLogger);
 
 /**
  * @swagger

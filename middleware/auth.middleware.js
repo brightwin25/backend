@@ -1,6 +1,8 @@
 const { request } = require("express");
 const jwt = require('jsonwebtoken');
 const { throwError } = require("../utils/response-handler");
+const tokrnValidity = require("../constants/common.constants");
+const asyncLocalStorage = require("../utils/async-context");
 
 
 const auth = (req, res, next) => {
@@ -17,14 +19,16 @@ const auth = (req, res, next) => {
         if (!verified) {
             throwError(403, 'Invalid Token')
         }
-        req.userName = verified.userName;
-        req.userId = verified.userId;
+
+        const store = asyncLocalStorage.getStore();
+        store.userName = verified.userName;
+        store.userId = verified.userId;
 
         const currentDate = new Date();
         const loginTime = new Date(verified.time);
         const loginDuration = currentDate - loginTime;
 
-        if (loginDuration / 60000 > 90) {
+        if (loginDuration / 60000 > tokrnValidity) {
             throwError(403, 'Token experied')
         }
 

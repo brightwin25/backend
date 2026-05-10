@@ -1,6 +1,7 @@
 const categoryService = require('../service/category.service');
 const logger = require('../middleware/logger.middleware');
-const response = require('../utils/response-handler')
+const response = require('../utils/response-handler');
+const asyncLocalStorage = require('../utils/async-context');
 
 const getCategories = async (req, res, next) => {
     const [categories] = await categoryService.getCategories();
@@ -15,7 +16,8 @@ const getCategories = async (req, res, next) => {
 
 const createCategory = async (req, res, next) => {
     try {
-        const userId = req.userId;
+        const store = asyncLocalStorage.getStore();
+        const userId = store.userId;
         const category = await categoryService.createCategory(req.body, userId);
         return response.sendSuccessResponse(res, {
             code: 200,
