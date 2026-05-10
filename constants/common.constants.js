@@ -1,3 +1,3 @@
-const tokrnValidity = 60;
+const tokrnValidity = 120;
 
 module.exports = tokrnValidity;

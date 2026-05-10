@@ -18,22 +18,17 @@ const createCategory = async (req, res, next) => {
     try {
         const store = asyncLocalStorage.getStore();
         const userId = store.userId;
-        const category = await categoryService.createCategory(req.body, userId);
-        return response.sendSuccessResponse(res, {
-            code: 200,
-            responseId: category.rowsAffected === 1 ? 1 : 2,
-            data: category,
-            message: category.rowsAffected === 1 ? 'Category added successfully' : 'Unable to add category',
-        })
+        const { name = '', type = 0 } = req.body;
+        const dataToBeAdded = [name, type, userId];
+        const category = await categoryService.createCategory(res, dataToBeAdded);
     } catch (err) {
         next(err);
     }
 }
 
 const getCategoryById = async (req, res, next) => {
-    logger.info('Entering into the get category by id controller');
     try {
-        const categoryId = req.params?.id || 0;
+        const categoryId = req.params?.id || -1;
         const category = await categoryService.getCategoryById(categoryId);
         if (!category) {
             return response.sendSuccessResponse(res, {

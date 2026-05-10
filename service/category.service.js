@@ -9,16 +9,8 @@ const getCategories = async () => {
     return await service.getAll(categoryQuery.getAllCategories);
 }
 
-const createCategory = async (data, userId) => {
-    try {
-        const { name = '', type = 0 } = data;
-        const categoryToBeCreated = [name, type, userId];
-        const category = await service.createItem(categoryQuery.createCategoryQuery, categoryToBeCreated);
-        return { id: category.id, name, type, userId, rowsAffected: category.rowsAffected };
-    } catch (error) {
-        logger.error(error.message);
-        throw error;
-    }
+const createCategory = async (res, data) => {
+    category = await service.createItem(res, categoryQuery.createCategoryQuery, data, 'Category');
 }
 
 const getCategoryById = async (data) => {
