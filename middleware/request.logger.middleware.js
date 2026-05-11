@@ -2,6 +2,12 @@ const logger = require('./logger.middleware');
 const asyncLocalStorage = require('../utils/async-context');
 
 const requestLogger = async (req, res, next) => {
+    let ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+
+    if (ip && ip.includes(',')) {
+        ip = ip.split(',')[0].trim();
+    }
+
     const start = Date.now();
     const requestId = Math.random().toString(36).substring(2, 12);
     let userName = 'Anonymous';

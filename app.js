@@ -11,8 +11,17 @@ const categoryRouter = require('./router/category.router');
 const errorHandler = require('./middleware/error.middleware');
 const { auth } = require('./middleware/auth.middleware');
 const requestLogger = require('./middleware/request.logger.middleware');
+const cors = require('cors');
 
 app.use(express.json());
+
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    methods: 'GET',
+    allowedHeaders: ['Authorization']
+};
+
+app.use(cors(corsOptions));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(requestLogger);
