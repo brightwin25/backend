@@ -1,4 +1,5 @@
 const db = require('../config/db.config');
+const logger = require('../middleware/logger.middleware');
 const throwError = require('../utils/response-handler');
 
 const createUser = async (user) => {
@@ -14,10 +15,14 @@ const getUsers = async () => {
 };
 
 const getUserById = async (data) => {
+  logger.info('Entering into GET user by ID controller !');
   const [user] = await db.execute('SELECT * FROM users WHERE id = ?', [data]);
+  logger.info("User fetched successfully !", user);
+
   if (!user) {
     throwError(403, 'User not found');
   }
+
   return user[0];
 }
 

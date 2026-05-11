@@ -1,3 +1,3 @@
-const tokrnValidity = 120;
+const tokenValidity = 120;
 
-module.exports = tokrnValidity;
+module.exports = tokenValidity;

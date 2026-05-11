@@ -1,6 +1,6 @@
 const winston = require('winston');
 const asyncLocalStorage = require('../utils/async-context');
-
+//One month rotation of logger
 const addRequestId = winston.format((info) => {
     const store = asyncLocalStorage.getStore();
 

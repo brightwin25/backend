@@ -22,7 +22,7 @@ const asyncHandler = require('../middleware/async.handler');
  *       200:
  *         description: Success
  */
-router.get("/", validateSchema(getCategoriesSchema), asyncHandler(getCategories));
+router.get("/", validateSchema(getCategoriesSchema, 'GET Categories'), asyncHandler(getCategories));
 
 /**
  * @swagger

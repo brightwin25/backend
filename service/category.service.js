@@ -5,12 +5,12 @@ const service = require('./index.service');
 const logger = require('../middleware/logger.middleware');
 const { request } = require('express');
 
-const getCategories = async () => {
-    return await service.getAll(categoryQuery.getAllCategories);
+const getCategories = async (res) => {
+    service.getAll(res, categoryQuery.getAllCategories, 'Categories');
 }
 
 const createCategory = async (res, data) => {
-    category = await service.createItem(res, categoryQuery.createCategoryQuery, data, 'Category');
+    service.createItem(res, categoryQuery.createCategoryQuery, data, 'Category');
 }
 
 const getCategoryById = async (data) => {

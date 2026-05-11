@@ -5,14 +5,20 @@ const jwt = require('jsonwebtoken');
 
 const login = async (req, res, next) => {
     try {
+        logger.info('Entering into login controller !');
         const { userId = 0, password = '' } = req.body;
         const user = await getUserById(userId);
 
-        if ((user.password !== password) || !user) {
-            throwError(401, 'User not found or incorrect password')
-        }
+        // if (!user) {
+        //     throwError('User not found !')
+        // }
+        // if ((user.password !== password) || !user) {
+        //     throwError(401, 'User not found or incorrect password')
+        // }
 
-        let userInfo = {
+        user ? (user.password !== password ? throwError(401, 'Incorrect Password') : '') : throwError(401, 'User not found');
+
+        const userInfo = {
             time: Date(),
             userId,
             userName: user.name,

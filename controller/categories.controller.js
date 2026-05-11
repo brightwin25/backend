@@ -4,23 +4,18 @@ const response = require('../utils/response-handler');
 const asyncLocalStorage = require('../utils/async-context');
 
 const getCategories = async (req, res, next) => {
-    const [categories] = await categoryService.getCategories();
-
-    return response.sendSuccessResponse(res, {
-        code: 200,
-        responseId: categories.length ? 1 : 2,
-        data: categories,
-        message: categories.length ? 'Categories fetched successfully' : 'Categories not found',
-    });
+    logger.info('Entering into GET categories controller !');
+    categoryService.getCategories(res);
 }
 
 const createCategory = async (req, res, next) => {
     try {
+        logger.info('Entering into CREATE categories controller !');
         const store = asyncLocalStorage.getStore();
         const userId = store.userId;
         const { name = '', type = 0 } = req.body;
         const dataToBeAdded = [name, type, userId];
-        const category = await categoryService.createCategory(res, dataToBeAdded);
+        categoryService.createCategory(res, dataToBeAdded);
     } catch (err) {
         next(err);
     }
