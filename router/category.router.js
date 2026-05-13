@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { getCategories, getCategoryById, createCategory } = require('../controller/categories.controller');
-const { categorySchema, getCategoriesSchema, getCategoryByIdSchema } = require('../middleware/joi/category.joi.middleware');
+const { getCategoriesSchema, getCategoryByIdSchema, createCategorySchema } = require('../middleware/joi/category.joi.middleware');
 const { validateSchema } = require('../middleware/joi');
 const asyncHandler = require('../middleware/async.handler');
 

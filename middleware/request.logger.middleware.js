@@ -14,16 +14,16 @@ const requestLogger = async (req, res, next) => {
 
     function getUserName() {
         const store = asyncLocalStorage.getStore();
-
         return store?.userName ? store.userName : 'Anonymous';
     }
-    //ip address
-    asyncLocalStorage.run({ requestId, userName, start }, async () => {
+
+    asyncLocalStorage.run({ requestId, userName, start, ip }, async () => {
         logger.info('API entry', {
             method: req.method,
             url: req.originalUrl,
             body: req?.body,
             userName: userName,
+            ip,
         })
         res.on('finish', () => {
             if (res.statusCode < 400) {
@@ -33,6 +33,7 @@ const requestLogger = async (req, res, next) => {
                     url: req.originalUrl,
                     body: req?.body,
                     userName: getUserName(),
+                    ip,
                     TimeTaken: timeTaken + 'ms'
                 });
             }

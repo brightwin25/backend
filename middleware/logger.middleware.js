@@ -4,11 +4,12 @@ const asyncLocalStorage = require('../utils/async-context');
 const addRequestId = winston.format((info) => {
     const store = asyncLocalStorage.getStore();
 
-    if (store?.requestId) {
+    if (store) {
         info.requestId = store.requestId;
+        info.ip = store.ip;
     }
     return info;
-})
+});
 
 const logger = winston.createLogger({
     level: 'info',
@@ -22,6 +23,6 @@ const logger = winston.createLogger({
         new winston.transports.File({ filename: 'error.log', level: 'error' }),
         new winston.transports.File({ filename: 'combined.log' })
     ]
-})
+});
 
 module.exports = logger;
