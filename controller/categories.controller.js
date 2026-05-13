@@ -22,26 +22,23 @@ const createCategory = async (req, res, next) => {
 }
 
 const getCategoryById = async (req, res, next) => {
-    try {
-        const categoryId = req.params?.id || -1;
-        const category = await categoryService.getCategoryById(categoryId);
-        if (!category) {
-            return response.sendSuccessResponse(res, {
-                code: 200,
-                responseId: 2,
-                data: null,
-                message: `No category found with this id ${categoryId}`,
-            })
-        }
-        return response.sendSuccessResponse(res, {
-            code: 200,
-            responseId: 1,
-            data: category,
-            message: 'Category fetched successfully',
-        })
-    } catch (err) {
-        throw err;
-    }
+    logger.info('Entering into GET category by ID controller !');
+    const categoryId = req.params?.id || -1;
+    categoryService.getCategoryById(res, categoryId);
+    // if (!category) {
+    //     return response.sendSuccessResponse(res, {
+    //         code: 200,
+    //         responseId: 2,
+    //         data: null,
+    //         message: `No category found with this id ${categoryId}`,
+    //     })
+    // }
+    // return response.sendSuccessResponse(res, {
+    //     code: 200,
+    //     responseId: 1,
+    //     data: category,
+    //     message: 'Category fetched successfully',
+    // })
 }
 
 module.exports = {

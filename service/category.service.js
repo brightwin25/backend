@@ -13,14 +13,8 @@ const createCategory = async (res, data) => {
     service.createItem(res, categoryQuery.createCategoryQuery, data, 'Category');
 }
 
-const getCategoryById = async (data) => {
-    try {
-        const [category] = await db.execute('SELECT * FROM categories WHERE id = ?', [data]);
-        return category[0];
-    }
-    catch (err) {
-        throw err;
-    }
+const getCategoryById = async (res, data) => {
+    service.getItemById(res, categoryQuery.getCategoryByIdQuery, data, 'Category');
 }
 
 module.exports = {

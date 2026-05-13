@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const categorySchema = Joi.object({
+const createCategorySchema = Joi.object({
     name: Joi.string().min(3).max(20).required(),
     type: Joi.boolean()
         .truthy(1, '1')
@@ -14,4 +14,8 @@ const getCategoriesSchema = Joi.object({
     orderType: Joi.string().valid('asc', 'desc').default('asc'),
 });
 
-module.exports = { categorySchema, getCategoriesSchema };
+const getCategoryByIdSchema = Joi.object({
+    id: Joi.number().required(),
+})
+
+module.exports = { createCategorySchema, getCategoriesSchema, getCategoryByIdSchema };

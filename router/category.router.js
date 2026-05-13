@@ -2,13 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 const { getCategories, getCategoryById, createCategory } = require('../controller/categories.controller');
-// const requestLogger = require('../middleware/request.logger.middleware');
-const { categorySchema, getCategoriesSchema } = require('../middleware/joi/category.joi.middleware');
+const { categorySchema, getCategoriesSchema, getCategoryByIdSchema } = require('../middleware/joi/category.joi.middleware');
 const { validateSchema } = require('../middleware/joi');
 const asyncHandler = require('../middleware/async.handler');
-
-
-// router.use(requestLogger);
 
 /**
  * @swagger
@@ -27,26 +23,19 @@ router.get("/", validateSchema(getCategoriesSchema, 'GET Categories'), asyncHand
 /**
  * @swagger
  * /categories/{id}:
- *  get:
- *      summary: GET category by ID,
- *      tags: [Categories]
- *      security:
- *       - bearerAuth: []
- *      parameters:
+ *   get:
+ *     summary: Get category by ID
+ *     tags: [Categories]
+ *     parameters:
  *       - in: path
  *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *       - in: query
- *         name: userId
- *         schema:
- *           type: integer
- *      responses:
- *          200:
- *              description :success
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Success
  */
-router.get("/:id", getCategoryById);
+router.get("/:id", validateSchema(getCategoryByIdSchema, 'GET Category by ID'), asyncHandler(getCategoryById));
 
 /**
  * @swagger
@@ -71,7 +60,7 @@ router.get("/:id", getCategoryById);
  *       200:
  *         description: success
  */
-router.post('/', validateSchema(categorySchema), createCategory);
+router.post('/', validateSchema(createCategorySchema, 'POST category'), createCategory);
 
 
 module.exports = router;

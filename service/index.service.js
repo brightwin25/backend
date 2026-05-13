@@ -3,7 +3,7 @@ const logger = require('../middleware/logger.middleware');
 const { sendSuccessResponse } = require('../utils/response-handler');
 
 const getAll = async (res, getAllQuery, itemName) => {
-    logger.info(`Entering into common GET ALL service for ${itemName} with query - ${getAllQuery}`)
+    logger.info(`Entering into common GET ALL service for ${itemName} with query - ${getAllQuery}`);
     const [data] = await db.execute(getAllQuery);
     logger.info('Data fetched from the database', { data });
     return sendSuccessResponse(res, {
@@ -23,7 +23,19 @@ const createItem = async (res, createItemQuery, itemToBeCreated, itemName) => {
         responseId: item.rowsAffected === 1 ? 1 : 2,
         data: item,
         message: item.rowsAffected === 1 ? `${itemName} added successfully` : `Unable to add ${itemName}`,
-    })
+    });
 }
 
-module.exports = { getAll, createItem };
+const getItemById = async (res, getItemByIdQuery, id, itemName) => {
+    logger.info(`Entering into common GET by ID service for ${itemName} with query - ${getItemByIdQuery}, with id ${id}`);
+    const [item] = await db.execute(getItemByIdQuery, [id]);
+    logger.info('Data fetched from the database', { item });
+    return sendSuccessResponse(res, {
+        code: 200,
+        responseId: item.length === 1 ? 1 : 2,
+        data: item,
+        message: item.length === 1 ? `${itemName} fetched successfully` : `Unable to fetch ${itemName}`,
+    });
+}
+
+module.exports = { getAll, createItem, getItemById };
