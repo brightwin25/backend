@@ -88,6 +88,7 @@ router.post('/', validateSchema(createCategorySchema, 'POST category'), createCa
  *         description: success
  */
 router.put('/', validateSchema(updateCategorySchema, 'UPDATE category'), updateCategory);
+
 /**
  * @swagger
  * /categories:
