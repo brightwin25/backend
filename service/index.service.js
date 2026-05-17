@@ -1,6 +1,6 @@
 const db = require('../config/db.config');
 const logger = require('../middleware/logger.middleware');
-const { sendSuccessResponse } = require('../utils/response-handler');
+const { sendSuccessResponse, throwError } = require('../utils/response-handler');
 
 const getAll = async (res, getAllQuery, itemName) => {
     logger.info(`Entering into common GET ALL service for ${itemName} with query - ${getAllQuery}`);
@@ -17,13 +17,17 @@ const getAll = async (res, getAllQuery, itemName) => {
 const createItem = async (res, createItemQuery, itemToBeCreated, itemName) => {
     logger.info(`Entering into common CREATE service for ${itemName} with query - ${createItemQuery},${itemToBeCreated}`)
     const [item] = await db.execute(createItemQuery, itemToBeCreated);
-    logger.info(`Create ${itemName} - `, { item });
-    return sendSuccessResponse(res, {
-        code: 200,
-        responseId: item.rowsAffected === 1 ? 1 : 2,
-        data: item,
-        message: item.rowsAffected === 1 ? `${itemName} added successfully` : `Unable to add ${itemName}`,
-    });
+    logger.info(`Created ${itemName} - `, { item });
+    if (item.affectedRows !== 1) {
+        throwError(401, `Unable to create ${itemName}`);
+    } else {
+        return sendSuccessResponse(res, {
+            code: 200,
+            responseId: item.rowsAffected === 1 ? 1 : 2,
+            data: item,
+            message: item.rowsAffected === 1 ? `${itemName} added successfully` : `Unable to add ${itemName}`,
+        });
+    }
 }
 
 const getItemById = async (res, getItemByIdQuery, id, itemName) => {
@@ -38,4 +42,26 @@ const getItemById = async (res, getItemByIdQuery, id, itemName) => {
     });
 }
 
-module.exports = { getAll, createItem, getItemById };
+const updateItem = async (res, query, data, itemName) => {
+    logger.info(`Entering into common UPDATE service for ${itemName} with query - ${query}, [${data}]`);
+    // try {
+    const [item] = await db.execute(query, data);
+    logger.info('Updated data from the database', { item });
+    if (item.changedRows !== 1 || item.affectedRows !== 1) {
+        return throwError(401, `Unable to update ${itemName}`);
+    } else {
+        return sendSuccessResponse(res, {
+            code: 200,
+            message: `${itemName} updated successfully`,
+            responseId: 1,
+            data: item,
+        })
+    }
+    // } catch (err) {
+    //     logger.error(err.message);
+    //     next(err);
+    //     // (401, `Update ${itemName} - Database error. Kindly contact the administrator`)
+    // }
+}
+
+module.exports = { getAll, createItem, getItemById, updateItem };

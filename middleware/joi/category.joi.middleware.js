@@ -18,4 +18,12 @@ const getCategoryByIdSchema = Joi.object({
     id: Joi.number().required(),
 })
 
-module.exports = { createCategorySchema, getCategoriesSchema, getCategoryByIdSchema };
+const updateCategorySchema = Joi.object({
+    id: Joi.number().min(0).required(),
+    name: Joi.string().min(3).max(20).required(),
+    type: Joi.boolean()
+        .truthy(1, '1')
+        .falsy(0, '0').required(),
+});
+
+module.exports = { createCategorySchema, getCategoriesSchema, getCategoryByIdSchema, updateCategorySchema };

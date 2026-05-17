@@ -17,8 +17,14 @@ const getCategoryById = async (res, data) => {
     service.getItemById(res, categoryQuery.getCategoryByIdQuery, data, 'Category');
 }
 
+const updateCategory = async (res, data) => {
+    service.updateItem(res, categoryQuery.updateCategoryQuery, data, 'Category');
+}
+
 module.exports = {
     getCategories,
     createCategory,
-    getCategoryById
+    getCategoryById,
+    updateCategory
+
 };

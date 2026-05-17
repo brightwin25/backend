@@ -25,22 +25,21 @@ const getCategoryById = async (req, res, next) => {
     logger.info('Entering into GET category by ID controller !');
     const categoryId = req.params?.id || -1;
     categoryService.getCategoryById(res, categoryId);
-    // if (!category) {
-    //     return response.sendSuccessResponse(res, {
-    //         code: 200,
-    //         responseId: 2,
-    //         data: null,
-    //         message: `No category found with this id ${categoryId}`,
-    //     })
-    // }
-    // return response.sendSuccessResponse(res, {
-    //     code: 200,
-    //     responseId: 1,
-    //     data: category,
-    //     message: 'Category fetched successfully',
-    // })
+}
+
+const updateCategory = async (req, res, next) => {
+    try {
+        logger.info('Entering into UPDATE category controller !');
+        const store = asyncLocalStorage.getStore();
+        const userId = store.userId;
+        const { id = -1, name = '', type = 0 } = req.body;
+        const dataToBeEdited = [name, type, userId, id];
+        categoryService.updateCategory(res, dataToBeEdited);
+    } catch (err) {
+        next(err)
+    }
 }
 
 module.exports = {
-    getCategories, createCategory, getCategoryById
+    getCategories, createCategory, getCategoryById, updateCategory
 }

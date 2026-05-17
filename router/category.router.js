@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const { getCategories, getCategoryById, createCategory } = require('../controller/categories.controller');
-const { getCategoriesSchema, getCategoryByIdSchema, createCategorySchema } = require('../middleware/joi/category.joi.middleware');
+const { getCategories, getCategoryById, createCategory, updateCategory } = require('../controller/categories.controller');
+const { getCategoriesSchema, getCategoryByIdSchema, createCategorySchema, updateCategorySchema } = require('../middleware/joi/category.joi.middleware');
 const { validateSchema } = require('../middleware/joi');
 const asyncHandler = require('../middleware/async.handler');
 
@@ -61,6 +61,33 @@ router.get("/:id", validateSchema(getCategoryByIdSchema, 'GET Category by ID'), 
  *         description: success
  */
 router.post('/', validateSchema(createCategorySchema, 'POST category'), createCategory);
+
+/**
+ * @swagger
+ * /categories:
+ *   put:
+ *     summary: Updates a category
+ *     tags: [Categories]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id: 
+ *                 type : integer    
+ *               name:
+ *                 type: string
+ *               type:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: success
+ */
+router.put('/', validateSchema(updateCategorySchema, 'UPDATE category'), updateCategory);
 
 
 module.exports = router;
