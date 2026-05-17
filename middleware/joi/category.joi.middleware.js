@@ -10,7 +10,7 @@ const createCategorySchema = Joi.object({
 
 const getCategoriesSchema = Joi.object({
     limit: Joi.number().min(0).max(50).default(10),
-    orderBy: Joi.any().required(),
+    orderBy: Joi.any(),
     orderType: Joi.string().valid('asc', 'desc').default('asc'),
 });
 

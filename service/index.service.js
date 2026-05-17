@@ -63,4 +63,25 @@ const updateItem = async (res, query, data, itemName) => {
     }
 }
 
-module.exports = { getAll, createItem, getItemById, updateItem };
+const deleteItem = async (res, deleteItemQuery, data, itemName) => {
+    logger.info(`Entering into common DELETE service for ${itemName} with query - ${deleteItemQuery}, [${data}]`);
+    try {
+        const [deletedItem] = await db.execute(deleteItemQuery, data);
+        logger.info(`Deleted item - ${itemName}`);
+        if (deletedItem.affectedRows !== 1) {
+            throwError(500, `Deletion falied for ${itemName}`);
+        } else {
+            sendSuccessResponse(res, {
+                data: deleteItem,
+                code: 200,
+                responseId: 1,
+                message: `Deletion success on ${itemName}`
+            })
+        }
+    } catch (err) {
+        logger.error(err.message);
+        throwError(500, `Unable to delete ${itemName}. Contact administrator`);
+    }
+}
+
+module.exports = { getAll, createItem, getItemById, updateItem, deleteItem };

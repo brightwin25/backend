@@ -21,9 +21,14 @@ const updateCategory = async (res, data) => {
     await service.updateItem(res, categoryQuery.updateCategoryQuery, data, 'Category');
 }
 
+const deleteCategory = async (res, data) => {
+    await service.deleteItem(res, categoryQuery.deleteCategoryQuery, data, 'Category');
+}
+
 module.exports = {
     getCategories,
     createCategory,
     getCategoryById,
-    updateCategory
+    updateCategory,
+    deleteCategory
 };

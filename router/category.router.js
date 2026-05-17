@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getCategories, getCategoryById, createCategory, updateCategory } = require('../controller/categories.controller');
+const { getCategories, getCategoryById, createCategory, updateCategory, deleteCategory } = require('../controller/categories.controller');
 const { getCategoriesSchema, getCategoryByIdSchema, createCategorySchema, updateCategorySchema } = require('../middleware/joi/category.joi.middleware');
 const { validateSchema } = require('../middleware/joi');
 const asyncHandler = require('../middleware/async.handler');
@@ -88,6 +88,32 @@ router.post('/', validateSchema(createCategorySchema, 'POST category'), createCa
  *         description: success
  */
 router.put('/', validateSchema(updateCategorySchema, 'UPDATE category'), updateCategory);
+/**
+ * @swagger
+ * /categories:
+ *   delete:
+ *     summary: Delete all categories
+ *     tags: [Categories]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id: 
+ *                 type : integer    
+ *               name:
+ *                 type: string
+ *               type:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Success
+ */
+router.delete('/', validateSchema(updateCategorySchema, 'DELETE category'), deleteCategory);
 
 
 module.exports = router;

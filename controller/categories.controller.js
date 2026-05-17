@@ -36,6 +36,13 @@ const updateCategory = async (req, res, next) => {
     await categoryService.updateCategory(res, dataToBeEdited);
 }
 
+const deleteCategory = async (req, res, next) => {
+    logger.info('Entering into DELETE category controller !');
+    const { id = -1 } = req.body;
+    const dataToBeDeleted = [id];
+    await categoryService.deleteCategory(res, dataToBeDeleted);
+}
+
 module.exports = {
-    getCategories, createCategory, getCategoryById, updateCategory
+    getCategories, createCategory, getCategoryById, updateCategory, deleteCategory
 }
