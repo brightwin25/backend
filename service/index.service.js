@@ -44,24 +44,23 @@ const getItemById = async (res, getItemByIdQuery, id, itemName) => {
 
 const updateItem = async (res, query, data, itemName) => {
     logger.info(`Entering into common UPDATE service for ${itemName} with query - ${query}, [${data}]`);
-    // try {
-    const [item] = await db.execute(query, data);
-    logger.info('Updated data from the database', { item });
-    if (item.changedRows !== 1 || item.affectedRows !== 1) {
-        return throwError(401, `Unable to update ${itemName}`);
-    } else {
-        return sendSuccessResponse(res, {
-            code: 200,
-            message: `${itemName} updated successfully`,
-            responseId: 1,
-            data: item,
-        })
+    try {
+        const [item] = await db.execute(query, data);
+        logger.info('Updated data from the database', { item });
+        if (item.affectedRows !== 1) {
+            return throwError(401, `Unable to update ${itemName}`);
+        } else {
+            return sendSuccessResponse(res, {
+                code: 200,
+                message: `${itemName} updated successfully`,
+                responseId: 1,
+                data: item,
+            })
+        }
+    } catch (err) {
+        logger.error(err.message);
+        throwError(401, `Update ${itemName} - Database error. Kindly contact the administrator`)
     }
-    // } catch (err) {
-    //     logger.error(err.message);
-    //     next(err);
-    //     // (401, `Update ${itemName} - Database error. Kindly contact the administrator`)
-    // }
 }
 
 module.exports = { getAll, createItem, getItemById, updateItem };

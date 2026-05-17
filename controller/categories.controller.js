@@ -28,16 +28,12 @@ const getCategoryById = async (req, res, next) => {
 }
 
 const updateCategory = async (req, res, next) => {
-    try {
-        logger.info('Entering into UPDATE category controller !');
-        const store = asyncLocalStorage.getStore();
-        const userId = store.userId;
-        const { id = -1, name = '', type = 0 } = req.body;
-        const dataToBeEdited = [name, type, userId, id];
-        categoryService.updateCategory(res, dataToBeEdited);
-    } catch (err) {
-        next(err)
-    }
+    logger.info('Entering into UPDATE category controller !');
+    const store = asyncLocalStorage.getStore();
+    const userId = store.userId;
+    const { id = -1, name = '', type = 0 } = req.body;
+    const dataToBeEdited = [name, type, userId, id];
+    await categoryService.updateCategory(res, dataToBeEdited);
 }
 
 module.exports = {

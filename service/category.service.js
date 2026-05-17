@@ -6,19 +6,19 @@ const logger = require('../middleware/logger.middleware');
 const { request } = require('express');
 
 const getCategories = async (res) => {
-    service.getAll(res, categoryQuery.getAllCategories, 'Categories');
+    await service.getAll(res, categoryQuery.getAllCategories, 'Categories');
 }
 
 const createCategory = async (res, data) => {
-    service.createItem(res, categoryQuery.createCategoryQuery, data, 'Category');
+    await service.createItem(res, categoryQuery.createCategoryQuery, data, 'Category');
 }
 
 const getCategoryById = async (res, data) => {
-    service.getItemById(res, categoryQuery.getCategoryByIdQuery, data, 'Category');
+    await service.getItemById(res, categoryQuery.getCategoryByIdQuery, data, 'Category');
 }
 
 const updateCategory = async (res, data) => {
-    service.updateItem(res, categoryQuery.updateCategoryQuery, data, 'Category');
+    await service.updateItem(res, categoryQuery.updateCategoryQuery, data, 'Category');
 }
 
 module.exports = {
@@ -26,5 +26,4 @@ module.exports = {
     createCategory,
     getCategoryById,
     updateCategory
-
 };
