@@ -7,7 +7,7 @@ const sendSuccessResponse = (res, { code = 200, responseId, data = null, message
         responseId,
         data,
         message,
-    })
+    });
 }
 
 const throwError = (statusCode = 500, message) => {
