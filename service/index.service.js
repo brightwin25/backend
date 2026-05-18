@@ -23,9 +23,9 @@ const createItem = async (res, createItemQuery, itemToBeCreated, itemName) => {
     } else {
         return sendSuccessResponse(res, {
             code: 200,
-            responseId: item.rowsAffected === 1 ? 1 : 2,
+            responseId: item.affectedRows === 1 ? 1 : 2,
             data: item,
-            message: item.rowsAffected === 1 ? `${itemName} added successfully` : `Unable to add ${itemName}`,
+            message: item.affectedRows === 1 ? `${itemName} added successfully` : `Unable to add ${itemName}`,
         });
     }
 }

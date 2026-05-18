@@ -17,7 +17,7 @@ const { getAccountsController, getAccountByIdController, createAccountController
  *       200:
  *         description: Success
  */
-router.get("/", asyncHandler(getAccountsController));
+router.get("/", getAccountsController);
 
 /**
  * @swagger
@@ -53,17 +53,25 @@ router.get("/:id", validateSchema(getAccountByIdSchema, 'GET Account by ID'), ge
  *             properties:
  *               name:
  *                 type: string
- *               amount: 
- *                  type : integer
+ *               account_number: 
+ *                 type : string
+ *               balance: 
+ *                 type : integer
  *               currency: 
- *                  type : string
- *               compatable_modes: 
- *                  type: string
+ *                 type: string
+ *               credit_limit:
+ *                 type: integer
+ *               bill_gen_date:
+ *                 type: date
+ *               deadline:
+ *                 type: date
+ *               isDebt:
+ *                 type: boolean
  *     responses:
  *       200:
  *         description: success
  */
-router.post('/', validateSchema(createAccountSchema, 'POST Account'), createAccountController);
+router.post('/', createAccountController);
 
 /**
  * @swagger
@@ -95,6 +103,7 @@ router.post('/', validateSchema(createAccountSchema, 'POST Account'), createAcco
  *         description: success
  */
 router.put('/', validateSchema(updateAccountSchema, 'UPDATE Account'), updateAccountController);
+
 /**
  * @swagger
  * /accounts:
