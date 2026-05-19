@@ -2,7 +2,8 @@ const { getAccountByIdQuery, updateAccountQuery } = require("../constants/accoun
 const { getModesQuery, getTransactionsQuery, addTransactionQuery } = require("../constants/transaction.constants");
 const logger = require("../middleware/logger.middleware");
 const { throwError, sendSuccessResponse } = require("../utils/response-handler");
-const { getAll, getItemById, updateItem, createItem } = require("./index.service");
+const { getAll, updateItem, createItem } = require("./common.service");
+const commonService = require('./common.return.service')
 const db = require('../config/db.config');
 
 
@@ -14,10 +15,10 @@ const getTransactions = async (res) => {
     await getAll(res, getTransactionsQuery, 'Transactions');
 }
 
-const createExpense = async (res, transactionData) => {
+const createExpense = async (transactionData) => {
     logger.info(`Entering into Create expense service with data ${transactionData}`);
 
-    const [[account]] = await db.execute(getAccountByIdQuery, [transactionData.account]);
+    const [account] = await commonService.getItemById(getAccountByIdQuery, transactionData.account, 'Account');
     logger.info(`Fetched account - ${account}`);
 
     if (!account) {
@@ -26,22 +27,31 @@ const createExpense = async (res, transactionData) => {
     } else if (account.id !== transactionData?.account) {
         logger.error(`Account mismatch, fetched account - ${account} & transaction account id - ${transactionData.account}`);
         throwError(403, `Account mismatch, fetched account - ${account} & transaction account id - ${transactionData.account}`);
-    } else if (account.balance < transactionData?.amount) {
+    } else if ((account.balance < transactionData?.amount) && transactionData?.isIncome === false) {
         logger.error(`Insufficient balance in account, Amount remaining in account - ${account.balance} & transaction amount - ${transactionData.amount}`);
         throwError(403, `Insufficient balance in account, Amount remaining in account - ${account.balance} & transaction amount - ${transactionData.amount}`);
     } else {
         logger.info(`Adding transaction to account name - ${account.name} of amount - ${transactionData.amount}`);
-        const balance = account?.balance - transactionData?.amount;
+        // let balance;
+
+        const balance = transactionData.isIncome === true ? account?.balance + transactionData?.amount : account?.balance - transactionData?.amount;
         const accountToBeUpdated = [account.name, account.account_number, balance, account.currency, account.credit_limit, account.bill_gen_date, account.deadline, account.isDebt, account.user_id, account.id];
-        const transactionToBeAdded = [transactionData.amount, transactionData.account, transactionData.isIncome, transactionData.userId]
-        await db.execute(updateAccountQuery, accountToBeUpdated);
-        const transaction = await db.execute(addTransactionQuery, transactionToBeAdded);
-        sendSuccessResponse(res, {
-            data: transaction,
-            responseId: 1,
-            code: 200,
-            message: 'Transaction added successfully'
-        })
+        const transactionToBeAdded = [transactionData.amount, transactionData.account, transactionData.isIncome, transactionData.userId];
+        const connection = await db.getConnection();
+        try {
+            await connection.beginTransaction();
+            const updatedAccount = await commonService.updateItem(updateAccountQuery, accountToBeUpdated, 'Account');
+            const transaction = await commonService.createItem(addTransactionQuery, transactionToBeAdded, 'Transaction');
+            await connection.commit();
+            return { updatedAccount, transaction };
+        }
+        catch (err) {
+            logger.error(err.message);
+            await connection.rollback();
+        }
+        finally {
+            connection.release();
+        }
     }
 }
 

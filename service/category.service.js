@@ -1,7 +1,7 @@
 const db = require('../config/db.config');
 const { throwError } = require('../utils/response-handler');
 const categoryQuery = require('../constants/category.constants');
-const service = require('./index.service');
+const service = require('./common.service');
 const logger = require('../middleware/logger.middleware');
 const { request } = require('express');
 

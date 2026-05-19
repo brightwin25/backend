@@ -1,6 +1,6 @@
 const db = require('../config/db.config');
 const { throwError } = require('../utils/response-handler');
-const service = require('./index.service');
+const service = require('./common.service');
 const logger = require('../middleware/logger.middleware');
 const { getAllAccounts, createAccountQuery, getAccountByIdQuery, updateAccountQuery, deleteAccountQuery } = require('../constants/account.constants');
 
