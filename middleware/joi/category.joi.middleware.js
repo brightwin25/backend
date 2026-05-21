@@ -5,6 +5,7 @@ const createCategorySchema = Joi.object({
     type: Joi.boolean()
         .truthy(1, '1')
         .falsy(0, '0').required(),
+    canEdit: Joi.boolean().truthy(1, '1').falsy(0, '0').optional(),
 });
 
 
@@ -24,6 +25,7 @@ const updateCategorySchema = Joi.object({
     type: Joi.boolean()
         .truthy(1, '1')
         .falsy(0, '0').required(),
+    canEdit: Joi.boolean().truthy(1, '1').falsy(0, '0').optional(),
 });
 
 module.exports = { createCategorySchema, getCategoriesSchema, getCategoryByIdSchema, updateCategorySchema };

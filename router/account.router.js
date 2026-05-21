@@ -40,7 +40,7 @@ router.get("/:id", validateSchema(getAccountByIdSchema, 'GET Account by ID'), ge
  * @swagger
  * /accounts:
  *   post:
- *     summary: Creates a Account
+ *     summary: Creates an Account
  *     tags: [Accounts]
  *     security:
  *       - bearerAuth: []
@@ -53,23 +53,25 @@ router.get("/:id", validateSchema(getAccountByIdSchema, 'GET Account by ID'), ge
  *             properties:
  *               name:
  *                 type: string
- *               account_number: 
- *                 type : string
- *               balance: 
- *                 type : integer
- *               currency: 
+ *               account_number:
+ *                 type: string
+ *               balance:
+ *                 type: integer
+ *               currency:
  *                 type: string
  *               credit_limit:
  *                 type: integer
  *               bill_gen_date:
- *                 type: date
+ *                 type: string
+ *                 format: date-time
  *               deadline:
- *                 type: date
- *               isDebt:
- *                 type: boolean
+ *                 type: string
+ *                 format: date-time
+ *               nature:
+ *                 type: string
  *     responses:
  *       200:
- *         description: success
+ *         description: Success
  */
 router.post('/', createAccountController);
 
@@ -77,7 +79,7 @@ router.post('/', createAccountController);
  * @swagger
  * /accounts:
  *   put:
- *     summary: Updates a Account
+ *     summary: Updates an Account
  *     tags: [Accounts]
  *     security:
  *       - bearerAuth: []
@@ -88,19 +90,29 @@ router.post('/', createAccountController);
  *           schema:
  *             type: object
  *             properties:
- *               id: 
- *                 type : integer    
+ *               id:
+ *                 type: integer
  *               name:
  *                 type: string
- *               amount: 
- *                  type : integer
- *               currency: 
- *                  type : string
- *               compatable_modes: 
- *                  type: string
+ *               account_number:
+ *                 type: string
+ *               balance:
+ *                 type: integer
+ *               currency:
+ *                 type: string
+ *               credit_limit:
+ *                 type: integer
+ *               bill_gen_date:
+ *                 type: string
+ *                 format: date-time
+ *               deadline:
+ *                 type: string
+ *                 format: date-time
+ *               nature:
+ *                 type: string
  *     responses:
  *       200:
- *         description: success
+ *         description: Success
  */
 router.put('/', validateSchema(updateAccountSchema, 'UPDATE Account'), updateAccountController);
 
@@ -108,7 +120,7 @@ router.put('/', validateSchema(updateAccountSchema, 'UPDATE Account'), updateAcc
  * @swagger
  * /accounts:
  *   delete:
- *     summary: Delete all accounts
+ *     summary: Deletes an Account
  *     tags: [Accounts]
  *     security:
  *       - bearerAuth: []
@@ -119,21 +131,30 @@ router.put('/', validateSchema(updateAccountSchema, 'UPDATE Account'), updateAcc
  *           schema:
  *             type: object
  *             properties:
- *               id: 
- *                 type : integer    
+ *               id:
+ *                 type: integer
  *               name:
  *                 type: string
- *               amount: 
- *                  type : integer
- *               currency: 
- *                  type : string
- *               compatable_modes: 
- *                  type: string
+ *               account_number:
+ *                 type: integer
+ *               balance:
+ *                 type: integer
+ *               currency:
+ *                 type: string
+ *               credit_limit:
+ *                 type: integer
+ *               bill_gen_date:
+ *                 type: string
+ *                 format: date-time
+ *               deadline:
+ *                 type: string
+ *                 format: date-time
+ *               nature:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Success
  */
 router.delete('/', validateSchema(updateAccountSchema, 'DELETE Account'), deleteAccountController);
-
 
 module.exports = router;

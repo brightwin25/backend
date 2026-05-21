@@ -56,6 +56,8 @@ router.get("/:id", validateSchema(getCategoryByIdSchema, 'GET Category by ID'), 
  *                 type: string
  *               type:
  *                 type: integer
+ *               canEdit:
+ *                 type: integer
  *     responses:
  *       200:
  *         description: success
@@ -83,6 +85,8 @@ router.post('/', validateSchema(createCategorySchema, 'POST category'), createCa
  *                 type: string
  *               type:
  *                 type: integer
+ *               canEdit:
+ *                 type: integer
  *     responses:
  *       200:
  *         description: success
@@ -109,6 +113,8 @@ router.put('/', validateSchema(updateCategorySchema, 'UPDATE category'), updateC
  *               name:
  *                 type: string
  *               type:
+ *                 type: integer
+ *               canEdit:
  *                 type: integer
  *     responses:
  *       200:

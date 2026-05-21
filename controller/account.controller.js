@@ -13,8 +13,8 @@ const createAccountController = async (req, res, next) => {
     logger.info('Entering into CREATE accounts controller !');
     const store = asyncLocalStorage.getStore();
     const user_id = store.userId;
-    const { name = '', account_number = '', balance = 0, currency = '', credit_limit = -1, bill_gen_date = null, deadline = null, isDebt = -1 } = req.body;
-    const accountToBeAdded = [name, account_number, balance, currency, credit_limit, bill_gen_date, deadline, isDebt, user_id];
+    const { name = '', account_number = '', balance = 0, currency = '', credit_limit = -1, bill_gen_date = null, deadline = null, nature = '' } = req.body;
+    const accountToBeAdded = [name, account_number, balance, currency, credit_limit, bill_gen_date, deadline, user_id, nature];
     await createAccount(res, accountToBeAdded);
 }
 
@@ -28,8 +28,8 @@ const updateAccountController = async (req, res, next) => {
     logger.info('Entering into UPDATE account controller !');
     const store = asyncLocalStorage.getStore();
     const userId = store.userId;
-    const { id = -1, name = '', account_number = '', balance = 0, currency = '', credit_limit = -1, bill_gen_date = null, deadline = null, isDebt = -1 } = req.body;
-    const accountToBeUpdated = [name, account_number, balance, currency, credit_limit, bill_gen_date, deadline, isDebt, user_id, id];
+    const { id = -1, name = '', account_number = '', balance = 0, currency = '', credit_limit = -1, bill_gen_date = null, deadline = null, nature = '' } = req.body;
+    const accountToBeUpdated = [name, account_number, balance, currency, credit_limit, bill_gen_date, deadline, user_id, nature, id];
     await updateAccount(res, dataToBeEdited);
 }
 

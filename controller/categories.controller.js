@@ -13,8 +13,8 @@ const createCategory = async (req, res, next) => {
         logger.info('Entering into CREATE categories controller !');
         const store = asyncLocalStorage.getStore();
         const userId = store.userId;
-        const { name = '', type = 0 } = req.body;
-        const dataToBeAdded = [name, type, userId];
+        const { name = '', type = 0, canEdit = 1 } = req.body;
+        const dataToBeAdded = [name, type, canEdit, userId];
         categoryService.createCategory(res, dataToBeAdded);
     } catch (err) {
         next(err);
@@ -31,8 +31,8 @@ const updateCategory = async (req, res, next) => {
     logger.info('Entering into UPDATE category controller !');
     const store = asyncLocalStorage.getStore();
     const userId = store.userId;
-    const { id = -1, name = '', type = 0 } = req.body;
-    const dataToBeEdited = [name, type, userId, id];
+    const { id = -1, name = '', type = 0, canEdit = 1 } = req.body;
+    const dataToBeEdited = [name, type, userId, canEdit, id];
     await categoryService.updateCategory(res, dataToBeEdited);
 }
 
