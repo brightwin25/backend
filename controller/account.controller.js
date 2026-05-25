@@ -7,14 +7,13 @@ const getAccountsController = async (req, res, next) => {
     logger.info('Entering into GET accounts controller !');
     await getAccounts(res);
 }
-const createAccountQuery = 'INSERT INTO accounts (name,account_number,balance,currency,credit_limit,bill_gen_date,deadline,isDebt,user_id) VALUES (?,?,?,?,?,?,?,?,?)';
 
 const createAccountController = async (req, res, next) => {
     logger.info('Entering into CREATE accounts controller !');
     const store = asyncLocalStorage.getStore();
-    const user_id = store.userId;
-    const { name = '', account_number = '', balance = 0, currency = '', credit_limit = -1, bill_gen_date = null, deadline = null, nature = '' } = req.body;
-    const accountToBeAdded = [name, account_number, balance, currency, credit_limit, bill_gen_date, deadline, user_id, nature];
+    const userId = store.userId;
+    const { name = '', accountNumber = '', balance = 0, currency = '', creditLimit = -1, billGenDate = null, deadline = null, nature = '', minBalance = 0, isCash = 0 } = req.body;
+    const accountToBeAdded = [name, accountNumber, balance, currency, creditLimit, billGenDate, deadline, nature, minBalance, isCash, userId];
     await createAccount(res, accountToBeAdded);
 }
 
@@ -28,9 +27,9 @@ const updateAccountController = async (req, res, next) => {
     logger.info('Entering into UPDATE account controller !');
     const store = asyncLocalStorage.getStore();
     const userId = store.userId;
-    const { id = -1, name = '', account_number = '', balance = 0, currency = '', credit_limit = -1, bill_gen_date = null, deadline = null, nature = '' } = req.body;
-    const accountToBeUpdated = [name, account_number, balance, currency, credit_limit, bill_gen_date, deadline, user_id, nature, id];
-    await updateAccount(res, dataToBeEdited);
+    const { id = -1, name = '', accountNumber = '', balance = 0, currency = '', creditLimit = -1, billGenDate = null, deadline = null, nature = '', minBalance = 0, isCash = 0 } = req.body;
+    const accountToBeUpdated = [name, accountNumber, balance, currency, creditLimit, billGenDate, deadline, nature, minBalance, isCash, userId, id];
+    await updateAccount(res, accountToBeUpdated);
 }
 
 const deleteAccountController = async (req, res, next) => {
