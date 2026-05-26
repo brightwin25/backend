@@ -17,7 +17,8 @@ const createTransactionSchema = Joi.object({
         .allow(null, '')
         .optional(),
     date: Joi.date()
-        .required(),
+        .optional()
+        .allow(null),
     mode: Joi.number()
         .integer()
         .required(),
@@ -44,7 +45,8 @@ const updateTransactionSchema = Joi.object({
         .allow(null, '')
         .optional(),
     date: Joi.date()
-        .required(),
+        .optional()
+        .allow(null),
     mode: Joi.number()
         .integer()
         .required(),

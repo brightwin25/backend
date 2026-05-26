@@ -18,8 +18,8 @@ const createTransactionController = async (req, res, next) => {
     try {
         const store = asyncLocalStorage.getStore();
         const userId = store.userId;
-        const { account = -1, amount = -1, isIncome = -1 } = req.body;
-        const transactionData = { account, amount, isIncome, userId };
+        const { amount = 0, account = 0, isIncome = 0, description = '', date = '', mode = '', category = 0 } = req.body;
+        const transactionData = { amount, account, isIncome, description, date, mode, category, userId };
         let result = {};
         result = await createExpense(transactionData);
         const { updatedAccount = {}, transaction = {} } = result || {};

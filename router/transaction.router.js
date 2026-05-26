@@ -65,21 +65,21 @@ router.get(
  *       required: true
  *       content:
  *         application/json:
- *             schema:
- *                 type: object
+ *           schema:
+ *             type: object
  *             properties:
  *               amount:
  *                 type: integer
  *               account:
  *                 type: integer
  *               isIncome:
- *                 type: boolean
+ *                 type: integer
  *               description:
  *                 type: string
  *               date:
  *                 type: string
  *               mode:
- *                 type: string
+ *                 type: integer
  *               category:
  *                 type: integer
  *     responses:
@@ -104,8 +104,8 @@ router.post(
  *       required: true
  *       content:
  *         application/json:
- *             schema:
- *                 type: object
+ *           schema:
+ *             type: object
  *             properties:
  *               id:
  *                 type: integer
@@ -114,13 +114,13 @@ router.post(
  *               account:
  *                 type: integer
  *               isIncome:
- *                 type: boolean
+ *                 type: integer
  *               description:
  *                 type: string
  *               date:
  *                 type: string
  *               mode:
- *                 type: string
+ *                 type: integer
  *               category:
  *                 type: integer
  *     responses:
@@ -145,9 +145,9 @@ router.put(
  *       required: true
  *       content:
  *         application/json:
- *              schema:
- *                 type: object
- *              properties:
+ *           schema:
+ *             type: object
+ *             properties:
  *               id:
  *                 type: integer
  *               amount:
@@ -155,13 +155,13 @@ router.put(
  *               account:
  *                 type: integer
  *               isIncome:
- *                 type: boolean
+ *                 type: integer
  *               description:
  *                 type: string
  *               date:
  *                 type: string
  *               mode:
- *                 type: string
+ *                 type: integer
  *               category:
  *                 type: integer
  *     responses:

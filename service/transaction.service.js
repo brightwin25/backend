@@ -35,8 +35,8 @@ const createExpense = async (transactionData) => {
         // let balance;
 
         const balance = transactionData.isIncome === true ? account?.balance + transactionData?.amount : account?.balance - transactionData?.amount;
-        const accountToBeUpdated = [account.name, account.account_number, balance, account.currency, account.credit_limit, account.bill_gen_date, account.deadline, account.isDebt, account.user_id, account.id];
-        const transactionToBeAdded = [transactionData.amount, transactionData.account, transactionData.isIncome, transactionData.userId];
+        const accountToBeUpdated = [account.name, account.accountNumber, balance, account.currency, account.creditLimit, account.billGenDate, account.deadline, account.nature, account.minBalance, account.isCash, account.userId, account.id];
+        const transactionToBeAdded = [transactionData.amount, transactionData.account, transactionData.isIncome, transactionData.description, transactionData.date, transactionData.mode, transactionData.category, transactionData.userId];
         const connection = await db.getConnection();
         try {
             await connection.beginTransaction();
